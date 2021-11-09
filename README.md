@@ -1,4 +1,4 @@
-# coin_database_gui
+# CoinCollectorGUI
 **A simple gui designed to interact with a database. The goal of the database
 is to make keeping track of collected coins simple.**
 
