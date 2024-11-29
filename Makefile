@@ -21,3 +21,4 @@ clean::
 	@find . -type d -name "*.venv" -exec echo {} + -exec rm -rf {} +
 	@find . -type d -name "*__pycache__" -exec echo {} + -exec rm -rf {} +
 	@find . -name "*.db" -exec echo {} + -exec rm -rf {} +
+	@find . -name "*.db-journal" -exec echo {} + -exec rm -rf {} +

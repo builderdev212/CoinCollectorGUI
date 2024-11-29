@@ -6,7 +6,8 @@ FROM docker.io/library/debian:${DEBIAN_VERSION}
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y \
     python3.11 python3-pip python3-venv \
-    python3-tk libsqlite3-dev
+    python3-tk libsqlite3-dev \
+    sqlitebrowser
  
 WORKDIR /usr/src/
 # setup python virtual environment
