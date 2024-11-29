@@ -15,3 +15,10 @@ Please make sure you are running python 3.8 or below, as mysql doesn't
 work on python 3.9. Make sure you have installed mariadb and created an
 account to access the database. Also, make sure mysql.connector and
 tkinter are installed.
+
+## Setting up a virtual environment
+```bash
+python3 -m venv .venv --prompt ccgui-venv
+source .venv/bin/activate
+pip3 install -r requierments.txt
+```

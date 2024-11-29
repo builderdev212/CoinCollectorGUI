@@ -1,0 +1,4 @@
+# all versions are based on what I have tested and confirmed to work. This doesn't mean that other versions
+# will not work, but rather that this is a known working environment.
+tkinter
+
