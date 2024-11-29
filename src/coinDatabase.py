@@ -70,7 +70,7 @@ class coinDatabase:
 
     @databaseHandler
     def remove(self, cursor, id):
-        cursor.execute(f"DELETE FROM Coins WHERE coin_id = {id};")
+        cursor.execute(f"DELETE FROM Coins WHERE id = {id};")
         self.logger.info(f"Deleted coin {id}")
 
     @databaseHandler
@@ -163,7 +163,7 @@ class coinDatabase:
                 elif location[0] == "W":
                     locations["W"] += 1
                 else:
-                    kinds["Other"] += 1
+                    locations["Other"] += 1
 
             return locations
 
@@ -179,7 +179,7 @@ class coinDatabase:
 
         total = 0
         for value in result:
-            total += value
+            total += value[0]
 
         return total
 
@@ -200,9 +200,12 @@ class coinDatabase:
         cursor.execute("SELECT year FROM Coins;")
         result = cursor.fetchall()
 
-        oldest = result[0][0]
-        for year in result:
-            if year[0] < oldest:
-                oldest = year[0]
+        if result == []:
+            oldest = -1
+        else:
+            oldest = result[0][0]
+            for year in result:
+                if year[0] < oldest:
+                    oldest = year[0]
 
         return oldest
