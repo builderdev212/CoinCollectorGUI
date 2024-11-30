@@ -19,66 +19,14 @@ class gui:
         self.win.destroy()
         exit()
 
-    # def search_db(self):
-    #     """
-    #     This function is called to search the database and return the results.
-    #     """
-    #     self.sort_scr.configure(state="normal")
-    #     self.sort_scr.delete("0.0", tk.END)
-    #     self.sort_scr.configure(state="disabled")
-    #     if self.sort_by.get() == 0:
-    #         sort = "coin_id"
-    #     elif self.sort_by.get() == 1:
-    #         sort = "type"
-    #     elif self.sort_by.get() == 2:
-    #         sort = "year"
-    #     elif self.sort_by.get() == 3:
-    #         sort = "mint"
-    #     elif self.sort_by.get() == 4:
-    #         sort = "coin_condition"
-    #     elif self.sort_by.get() == 5:
-    #         sort = "value"
-    #     else:
-    #         sort = ""
-
-    #     try:
-    #         result = self.db.search(
-    #             self.search_type.get(),
-    #             self.search_year.get(),
-    #             self.search_mint.get(),
-    #             self.search_condition.get(),
-    #             self.description_search.get(),
-    #             sort,
-    #         )
-    #     except SearchError:
-    #         msg.showerror(
-    #             "Search Error",
-    #             "An error has occured in an attempt to search for information in your database.",
-    #         )
-    #     else:
-    #         output = "Your results:\n"
-
-    #         for id, type, year, mint, description, condition, value in result:
-    #             output += "{} - {} - {} - {} - {} - {} - {}\n".format(
-    #                 id, type, year, mint, description, condition, value
-    #             )
-    #         output += "\n"
-
-    #         self.sort_scr.configure(state="normal")
-    #         self.sort_scr.insert(tk.INSERT, output)
-    #         self.sort_scr.configure(state="disabled")
-
     def createWidgets(self):
         self.tabCtrl = ttk.Notebook(self.win)
-
-        # self.search_tab = ttk.Frame(self.tab_control)
-        # self.tab_control.add(self.search_tab, text="Search Coins")
 
         self.connectTabSetup()
         self.overviewTabSetup()
         self.viewTabSetup()
         self.addOrRemoveTabSetup()
-        # self.search_db_tab()
+        self.searchTabSetup()
         self.menuSetup()
 
         self.tabCtrl.pack(expand=1, fill="both")
@@ -86,7 +34,7 @@ class gui:
         self.tabCtrl.tab(1, state="disabled")
         self.tabCtrl.tab(2, state="disabled")
         self.tabCtrl.tab(3, state="disabled")
-        # self.tabCtrl.tab(4, state="disabled")
+        self.tabCtrl.tab(4, state="disabled")
 
     def connectTabSetup(self):
         self.connectTab = ttk.Frame(self.tabCtrl)
@@ -120,7 +68,7 @@ class gui:
             self.tabCtrl.tab(1, state="normal")
             self.tabCtrl.tab(2, state="normal")
             self.tabCtrl.tab(3, state="normal")
-            # self.tabCtrl.tab(4, state="normal")
+            self.tabCtrl.tab(4, state="normal")
 
             self.viewAllInitialUpdate()
             self.overviewTabInitialUpdate()
@@ -379,118 +327,156 @@ class gui:
             self.addOrRemoveOutputTxt.configure(state="disabled")
             self.idChoice.delete(0, "end")
 
-    # def search_db_tab(self):
-    #     """
-    #     Creates the widgets that will be on the Search Coins tab.
-    #     """
-    #     # search group
-    #     search = ttk.LabelFrame(self.search_tab, text=" Search Coin Database ")
-    #     search.grid(column=0, row=0, padx=8, pady=4)
+    def searchTabSetup(self):
+        self.searchTab = ttk.Frame(self.tabCtrl)
+        self.tabCtrl.add(self.searchTab, text="Search Coins")
 
-    #     # Labels
-    #     ttk.Label(search, text="Type:").grid(column=0, row=0, padx=2, pady=2)
-    #     ttk.Label(search, text="Year:").grid(column=1, row=0, padx=2, pady=2)
-    #     ttk.Label(search, text="Mint:").grid(column=2, row=0, padx=2, pady=2)
-    #     ttk.Label(search, text="Condition:").grid(column=3, row=0, padx=2, pady=2)
-    #     ttk.Label(search, text="Description:").grid(column=0, row=2, padx=2, pady=2)
+        self.searchGroup = ttk.LabelFrame(self.searchTab, text=" Search Coin Database ")
+        self.searchGroup.grid(column=0, row=0, padx=8, pady=4)
 
-    #     # type dropdown menu
-    #     self.search_type = tk.StringVar()
-    #     self.type_search = ttk.Combobox(
-    #         search, width=10, textvariable=self.search_type, state="readonly"
-    #     )
-    #     self.type_search["values"] = (
-    #         "",
-    #         "Penny",
-    #         "Nickel",
-    #         "Dime",
-    #         "Quarter",
-    #         "Half Dollar",
-    #         "Dollar",
-    #     )
-    #     self.type_search.grid(column=0, row=1, padx=2, pady=2)
+        ttk.Label(self.searchGroup, text="Type:").grid(column=0, row=0, padx=2, pady=2)
+        ttk.Label(self.searchGroup, text="Year:").grid(column=1, row=0, padx=2, pady=2)
+        ttk.Label(self.searchGroup, text="Mint:").grid(column=2, row=0, padx=2, pady=2)
+        ttk.Label(self.searchGroup, text="Condition:").grid(column=3, row=0, padx=2, pady=2)
+        ttk.Label(self.searchGroup, text="Description:").grid(column=0, row=2, padx=2, pady=2)
 
-    #     # year entry
-    #     self.search_year = tk.StringVar()
-    #     self.year_search = ttk.Entry(search, width=4, textvariable=self.search_year)
-    #     self.year_search.grid(column=1, row=1, padx=2, pady=2)
+        self.searchTypeTxt = tkinter.StringVar()
+        self.searchType = ttk.Combobox(
+            self.searchGroup, width=10, textvariable=self.searchTypeTxt, state="readonly"
+        )
+        self.searchType["values"] = (
+            "",
+            "Penny",
+            "Nickel",
+            "Dime",
+            "Quarter",
+            "Half Dollar",
+            "Dollar",
+            "Other",
+        )
+        self.searchType.grid(column=0, row=1, padx=2, pady=2)
 
-    #     # mint dropdown menu
-    #     self.search_mint = tk.StringVar()
-    #     self.mint_search = ttk.Combobox(
-    #         search, width=4, textvariable=self.search_mint, state="readonly"
-    #     )
-    #     self.mint_search["values"] = ("", "P", "D", "S", "W")
-    #     self.mint_search.grid(column=2, row=1, padx=2, pady=2)
+        self.searchYearTxt = tkinter.StringVar()
+        self.searchYear = ttk.Entry(self.searchGroup, width=4, textvariable=self.searchYearTxt)
+        self.searchYear.grid(column=1, row=1, padx=2, pady=2)
 
-    #     # condition dropdown menu
-    #     self.search_condition = tk.StringVar()
-    #     self.condition_search = ttk.Combobox(
-    #         search, width=4, textvariable=self.search_condition, state="readonly"
-    #     )
-    #     self.condition_search["values"] = (
-    #         "",
-    #         "PR",
-    #         "FA",
-    #         "AG",
-    #         "G",
-    #         "VG",
-    #         "F",
-    #         "VF",
-    #         "XF",
-    #         "AU",
-    #         "U",
-    #         "MS",
-    #         "PR",
-    #     )
-    #     self.condition_search.grid(column=3, row=1, padx=2, pady=2)
+        self.searchMintTxt = tkinter.StringVar()
+        self.searchMint = ttk.Combobox(
+            self.searchGroup, width=4, textvariable=self.searchMintTxt, state="readonly"
+        )
+        self.searchMint["values"] = ("", "P", "D", "S", "W", "Other")
+        self.searchMint.grid(column=2, row=1, padx=2, pady=2)
 
-    #     # search button
-    #     self.remove_coin = ttk.Button(
-    #         self.search_tab, text="Search!", command=self.search_db
-    #     )
-    #     self.remove_coin.grid(column=1, row=0, padx=2, pady=2)
+        self.searchConditionTxt = tkinter.StringVar()
+        self.searchCondition = ttk.Combobox(
+            self.searchGroup, width=4, textvariable=self.searchConditionTxt, state="readonly"
+        )
+        self.searchCondition["values"] = (
+            "",
+            "PR",
+            "FA",
+            "AG",
+            "G",
+            "VG",
+            "F",
+            "VF",
+            "XF",
+            "AU",
+            "U",
+            "MS",
+            "PR",
+        )
+        self.searchCondition.grid(column=3, row=1, padx=2, pady=2)
 
-    #     # sort by
-    #     sort = ttk.LabelFrame(self.search_tab, text=" Sort By ")
-    #     sort.grid(column=0, row=1, padx=8, pady=4, columnspan=2)
+        self.searchDescriptionTxt = tkinter.StringVar()
+        self.searchDescription = ttk.Entry(
+            self.searchGroup, width=50, textvariable=self.searchDescriptionTxt
+        )
+        self.searchDescription.grid(column=0, row=3, columnspan=4, padx=2, pady=2)
 
-    #     # check buttons
-    #     self.sort_by = tk.IntVar()
-    #     self.type_sort = tk.Radiobutton(
-    #         sort, text="Value", variable=self.sort_by, value=5
-    #     )
-    #     self.type_sort.grid(column=5, row=0)
-    #     self.type_sort = tk.Radiobutton(
-    #         sort, text="Type", variable=self.sort_by, value=1
-    #     )
-    #     self.type_sort.grid(column=1, row=0)
-    #     self.year_sort = tk.Radiobutton(
-    #         sort, text="Year", variable=self.sort_by, value=2
-    #     )
-    #     self.year_sort.grid(column=2, row=0)
-    #     self.mint_sort = tk.Radiobutton(
-    #         sort, text="Mint", variable=self.sort_by, value=3
-    #     )
-    #     self.mint_sort.grid(column=3, row=0)
-    #     self.condition_sort = tk.Radiobutton(
-    #         sort, text="Condition", variable=self.sort_by, value=4
-    #     )
-    #     self.condition_sort.grid(column=4, row=0)
-    #     self.id_sort = tk.Radiobutton(sort, text="ID", variable=self.sort_by, value=0)
-    #     self.id_sort.grid(column=0, row=0)
+        self.searchCoinDatabase = ttk.Button(
+            self.searchTab, text="Search!", command=self.searchDatabase
+        )
+        self.searchCoinDatabase.grid(column=1, row=0, padx=2, pady=2)
 
-    #     self.description_search = tk.StringVar()
-    #     self.description_sort = ttk.Entry(
-    #         search, width=50, textvariable=self.description_search
-    #     )
-    #     self.description_sort.grid(column=0, row=3, columnspan=4, padx=2, pady=2)
+        self.sortGroup = ttk.LabelFrame(self.searchTab, text=" Sort By ")
+        self.sortGroup.grid(column=0, row=1, padx=8, pady=4, columnspan=2)
 
-    #     # search output
-    #     self.sort_scr = scrolledtext.ScrolledText(
-    #         self.search_tab, width=70, height=11, wrap=tk.WORD, state="disabled"
-    #     )
-    #     self.sort_scr.grid(column=0, row=3, columnspan=4)
+        self.sortBy = tkinter.IntVar()
+        self.sortValue = tkinter.Radiobutton(
+            self.sortGroup, text="Value", variable=self.sortBy, value=5
+        )
+        self.sortValue.grid(column=5, row=0)
+        self.sortKind = tkinter.Radiobutton(
+            self.sortGroup, text="Kind", variable=self.sortBy, value=1
+        )
+        self.sortKind.grid(column=1, row=0)
+        self.sortYear = tkinter.Radiobutton(
+            self.sortGroup, text="Year", variable=self.sortBy, value=2
+        )
+        self.sortYear.grid(column=2, row=0)
+        self.sortMint = tkinter.Radiobutton(
+            self.sortGroup, text="Mint", variable=self.sortBy, value=3
+        )
+        self.sortMint.grid(column=3, row=0)
+        self.sortCondition = tkinter.Radiobutton(
+            self.sortGroup, text="Condition", variable=self.sortBy, value=4
+        )
+        self.sortCondition.grid(column=4, row=0)
+        self.sortId = tkinter.Radiobutton(self.sortGroup, text="ID", variable=self.sortBy, value=0)
+        self.sortId.grid(column=0, row=0)
+
+        self.sortResults = scrolledtext.ScrolledText(
+            self.searchTab, width=70, height=11, wrap=tkinter.WORD, state="disabled"
+        )
+        self.sortResults.grid(column=0, row=3, columnspan=4)
+
+    def searchDatabase(self):
+        self.sortResults.configure(state="normal")
+        self.sortResults.delete("0.0", tkinter.END)
+        self.sortResults.configure(state="disabled")
+
+        if self.sortBy.get() == 0:
+            sort = "id"
+        elif self.sortBy.get() == 1:
+            sort = "kind"
+        elif self.sortBy.get() == 2:
+            sort = "year"
+        elif self.sortBy.get() == 3:
+            sort = "mint"
+        elif self.sortBy.get() == 4:
+            sort = "condition"
+        elif self.sortBy.get() == 5:
+            sort = "value"
+        else:
+            sort = ""
+
+        try:
+            result = self.db.search(
+                coin=Coin(
+                    self.searchTypeTxt.get(),
+                    self.searchYearTxt.get(),
+                    self.searchMintTxt.get(),
+                    self.searchDescriptionTxt.get(),
+                    self.searchConditionTxt.get(),
+                    -1,
+                ),
+                order=sort,
+            )
+        except Exception:
+            messagebox.showerror("Database Error", traceback.format_exc())
+        else:
+            output = "Your results:\n"
+
+            for id, kind, year, mint, description, condition, value in result:
+                output += "{} - {} - {} - {} - {} - {} - {}\n".format(
+                    id, kind, year, mint, description, condition, value
+                )
+            output += "\n"
+
+            self.sortResults.configure(state="normal")
+            self.sortResults.insert(tk.INSERT, output)
+            self.sortResults.configure(state="disabled")
 
     def menuSetup(self):
         menuBar = Menu(self.win)

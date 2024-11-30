@@ -4,10 +4,6 @@ CONTAINER_FILE := Containerfile
 build::
 	@podman build -f ${CONTAINER_FILE} -t ${CONTAINER_IMG} "${PWD}"
 
-# publish::
-# 	@podman login
-# 	@podman push ${CONTAINER_IMG}:latest
-
 run::
 	@podman run -it --rm \
 	    -e DISPLAY \
