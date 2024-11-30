@@ -107,6 +107,9 @@ class coinDatabase:
         )
 
         result = cursor.fetchall()
+        self.logger.info(
+            f"Executed search: kind {kindParameters} AND year {yearParameters} AND mint {mintParameters} AND description {descriptionParameters} AND condition {conditionParameters} {searchOrder}"
+        )
         return result
 
     @databaseHandler
@@ -115,6 +118,7 @@ class coinDatabase:
             "SELECT id, kind, year, mint, description, condition, value FROM Coins ORDER BY id;"
         )
         result = cursor.fetchall()
+        self.logger.info("Dumped database.")
         return result
 
     @databaseHandler
@@ -146,6 +150,7 @@ class coinDatabase:
                 else:
                     kinds["Other"] += 1
 
+            self.logger.info(f"Dumped kind count: {kinds}")
             return kinds
 
         elif byMint:
@@ -165,11 +170,13 @@ class coinDatabase:
                 else:
                     locations["Other"] += 1
 
+            self.logger.info(f"Dumped location count: {locations}")
             return locations
 
         else:
             cursor.execute("SELECT id FROM Coins;")
             result = cursor.fetchall()
+            self.logger.info(f"Dumped coin count: {len(result)}")
             return len(result)
 
     @databaseHandler
@@ -181,6 +188,7 @@ class coinDatabase:
         for value in result:
             total += value[0]
 
+        self.logger.info(f"Dumped total value: {total}")
         return total
 
     @databaseHandler
@@ -193,6 +201,7 @@ class coinDatabase:
             if value[0] > highest:
                 highest = value[0]
 
+        self.logger.info(f"Dumped highest value: {highest}")
         return highest
 
     @databaseHandler
@@ -208,4 +217,5 @@ class coinDatabase:
                 if year[0] < oldest:
                     oldest = year[0]
 
+        self.logger.info(f"Dumped oldest year: {oldest}")
         return oldest
