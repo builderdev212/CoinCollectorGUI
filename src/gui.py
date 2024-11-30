@@ -337,12 +337,19 @@ class gui:
         ttk.Label(self.searchGroup, text="Type:").grid(column=0, row=0, padx=2, pady=2)
         ttk.Label(self.searchGroup, text="Year:").grid(column=1, row=0, padx=2, pady=2)
         ttk.Label(self.searchGroup, text="Mint:").grid(column=2, row=0, padx=2, pady=2)
-        ttk.Label(self.searchGroup, text="Condition:").grid(column=3, row=0, padx=2, pady=2)
-        ttk.Label(self.searchGroup, text="Description:").grid(column=0, row=2, padx=2, pady=2)
+        ttk.Label(self.searchGroup, text="Condition:").grid(
+            column=3, row=0, padx=2, pady=2
+        )
+        ttk.Label(self.searchGroup, text="Description:").grid(
+            column=0, row=2, padx=2, pady=2
+        )
 
         self.searchTypeTxt = tkinter.StringVar()
         self.searchType = ttk.Combobox(
-            self.searchGroup, width=10, textvariable=self.searchTypeTxt, state="readonly"
+            self.searchGroup,
+            width=10,
+            textvariable=self.searchTypeTxt,
+            state="readonly",
         )
         self.searchType["values"] = (
             "",
@@ -357,7 +364,9 @@ class gui:
         self.searchType.grid(column=0, row=1, padx=2, pady=2)
 
         self.searchYearTxt = tkinter.StringVar()
-        self.searchYear = ttk.Entry(self.searchGroup, width=4, textvariable=self.searchYearTxt)
+        self.searchYear = ttk.Entry(
+            self.searchGroup, width=4, textvariable=self.searchYearTxt
+        )
         self.searchYear.grid(column=1, row=1, padx=2, pady=2)
 
         self.searchMintTxt = tkinter.StringVar()
@@ -369,7 +378,10 @@ class gui:
 
         self.searchConditionTxt = tkinter.StringVar()
         self.searchCondition = ttk.Combobox(
-            self.searchGroup, width=4, textvariable=self.searchConditionTxt, state="readonly"
+            self.searchGroup,
+            width=4,
+            textvariable=self.searchConditionTxt,
+            state="readonly",
         )
         self.searchCondition["values"] = (
             "",
@@ -423,7 +435,9 @@ class gui:
             self.sortGroup, text="Condition", variable=self.sortBy, value=4
         )
         self.sortCondition.grid(column=4, row=0)
-        self.sortId = tkinter.Radiobutton(self.sortGroup, text="ID", variable=self.sortBy, value=0)
+        self.sortId = tkinter.Radiobutton(
+            self.sortGroup, text="ID", variable=self.sortBy, value=0
+        )
         self.sortId.grid(column=0, row=0)
 
         self.sortResults = scrolledtext.ScrolledText(
