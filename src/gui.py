@@ -499,8 +499,3 @@ class gui:
         fileMenu = Menu(menuBar, tearoff=0)
         fileMenu.add_command(label="Exit", command=self._quit)
         menuBar.add_cascade(label="File", menu=fileMenu)
-
-
-if __name__ == "__main__":
-    gui = gui()
-    gui.win.mainloop()
